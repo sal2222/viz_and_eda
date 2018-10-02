@@ -161,3 +161,35 @@ tmax_date_p = ggplot(weather_df, aes(x = date, y = tmax, color = name)) +
 (tmax_tmin_p + prcp_dens_p) / tmax_date_p
 ```
 
+
+## Data Manipulation
+
+factor variables...
+
+Factor re-level / Factor Re-order
+
+```{r}
+weather_df %>%
+  mutate(name = forcats::fct_relevel(name, c("Waikiki_HA", "CentralPark_NY", "Waterhole_WA"))) %>% 
+  ggplot(aes(x = name, y = tmax)) + 
+  geom_violin(aes(fill = name), color = "blue", alpha = .5) + 
+  theme(legend.position = "bottom")
+
+```
+
+Advanced tidying:
+
+density plots of tmax and tmin
+
+
+
+```{r}
+weather_df %>%
+  select(name, tmax, tmin) %>% 
+  gather(key = observation, value = temp, tmax:tmin) %>% 
+  ggplot(aes(x = temp, fill = observation)) +
+  geom_density(alpha = .5) + 
+  facet_grid(~name) + 
+  viridis::scale_fill_viridis(discrete = TRUE)
+```
+

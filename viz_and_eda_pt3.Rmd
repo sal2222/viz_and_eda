@@ -65,3 +65,35 @@ weather_df %>%
             sd_tmax = sd(tmax))
 ```
 
+
+Create a plot based on the monthly summary:
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(mean_tmax = mean(tmax)) %>%
+  ggplot(aes(x = month, y = mean_tmax, color = name)) + 
+    geom_point() + geom_line() + 
+    theme(legend.position = "bottom")
+```
+
+
+More readable table (spread - not tidy)...
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(mean_tmax = mean(tmax)) %>% 
+  spread(key = month, value = mean_tmax) %>% 
+  knitr::kable(digits = 1)
+```
+
+
+
+
+
+Plot two tibbles at once...
+
+```{r}
+
+```
+
